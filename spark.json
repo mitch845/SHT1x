@@ -1,7 +1,7 @@
 {
-  "name": "sht1x-mod",
+  "name": "sht1x",
   "author": "prova <xxxxxxxxxxx@gmail.com>",
   "license": "GPL v3 (http://www.gnu.org/licenses/gpl.html)",
-  "version": "2.0",
+  "version": "2.0.1",
   "description": "libreria sht1x modificata"
 }
