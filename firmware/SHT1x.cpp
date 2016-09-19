@@ -11,7 +11,6 @@
  *
  * Ported to Spark Core by Anurag Chugh (https://github.com/lithiumhead) on 2014-10-15
  */
-
 #include "SHT1x.h"
 
 SHT1x::SHT1x(int dataPin, int clockPin)
@@ -72,8 +71,8 @@ float SHT1x::readHumidity()
 {
     int _val;                    // Raw humidity value returned from sensor
     float _linearHumidity;       // Humidity with linear correction applied
-    float _correctedHumidity;    // Temperature-corrected humidity
-    float _temperature;          // Raw temperature value
+  //  float _correctedHumidity;    // Temperature-corrected humidity
+    //float _temperature;          // Raw temperature value
     
     // Conversion coefficients from SHT15 datasheet
     const float X1 = -4.0;       // for 12 Bit
@@ -95,12 +94,12 @@ float SHT1x::readHumidity()
     _linearHumidity = X1 + X2 * _val + X3 * _val * _val;
     
     // Get current temperature for humidity correction
-    _temperature = readTemperatureC();
+ //   _temperature = readTemperatureC();
     
     // Correct humidity value for current temperature
-    _correctedHumidity = (_temperature - 25.0 ) * (T1 + T2 * _val) + _linearHumidity;
+//    _correctedHumidity = (_temperature - 25.0 ) * (T1 + T2 * _val) + _linearHumidity;
     
-    return (_correctedHumidity);
+    return (_linearHumidity);
 }
 
 
@@ -133,10 +132,9 @@ int SHT1x::shiftIn(int _dataPin, int _clockPin, int _numBits)
     for (i=0; i<_numBits; ++i)
     {
         digitalWrite(_clockPin, HIGH);
-        delay(20);  // I don't know why I need this, but without it I don't get my 8 lsb of temp
+        delay(10);  // I don't know why I need this, but without it I don't get my 8 lsb of temp
         ret = ret*2 + digitalRead(_dataPin);
         digitalWrite(_clockPin, LOW);
-        delay(20);
     }
     
     return(ret);
@@ -147,37 +145,144 @@ int SHT1x::shiftIn(int _dataPin, int _clockPin, int _numBits)
 void SHT1x::sendCommandSHT(int _command, int _dataPin, int _clockPin)
 {
     int ack;
-    
+	
     // Transmission Start
     pinMode(_dataPin, OUTPUT);
     pinMode(_clockPin, OUTPUT);
-    delay(1);
     digitalWrite(_dataPin, HIGH);
+	delay(1);
     digitalWrite(_clockPin, HIGH);
-    delay(1);
+	delay(1);
     digitalWrite(_dataPin, LOW);
+	delay(1);
     digitalWrite(_clockPin, LOW);
-    delay(1);
+	delay(1);
     digitalWrite(_clockPin, HIGH);
-    delay(1);
+	delay(1);
     digitalWrite(_dataPin, HIGH);
+	delay(1);
     digitalWrite(_clockPin, LOW);
-    delay(1);
+	delay(1);
     
+    if(_command == 0b00000101)  //comando umidità
     // The command (3 msb are address and must be 000, and last 5 bits are command)
-    shiftOut(_dataPin, _clockPin, MSBFIRST, _command);
-    
+    //shiftOut(_dataPin, _clockPin, MSBFIRST, _command);
+	{
+	//sequenza per lettura umidita: 00000101
+    digitalWrite(_dataPin, LOW); //0
+	delay(1);
+	digitalWrite(_clockPin, HIGH);
+	delay(1);
+	digitalWrite(_clockPin, LOW);
+	delay(1);
+	digitalWrite(_dataPin, LOW); //0
+	delay(1);
+	digitalWrite(_clockPin, HIGH);
+	delay(1);
+	digitalWrite(_clockPin, LOW);
+	delay(1);
+	digitalWrite(_dataPin, LOW); //0
+	delay(1);
+	digitalWrite(_clockPin, HIGH);
+	delay(1);
+	digitalWrite(_clockPin, LOW);
+	delay(1);
+	digitalWrite(_dataPin, LOW); //0
+	delay(1);
+	digitalWrite(_clockPin, HIGH);
+	delay(1);
+	digitalWrite(_clockPin, LOW);
+	delay(1);
+	digitalWrite(_dataPin, LOW); //0
+	delay(1);
+	digitalWrite(_clockPin, HIGH);
+	delay(1);
+	digitalWrite(_clockPin, LOW);
+	delay(1);
+	digitalWrite(_dataPin, HIGH); //1
+	delay(1);
+	digitalWrite(_clockPin, HIGH);
+	delay(1);
+	digitalWrite(_clockPin, LOW);
+	delay(1);
+	digitalWrite(_dataPin, LOW); //0
+	delay(1);
+	digitalWrite(_clockPin, HIGH);
+	delay(1);
+	digitalWrite(_clockPin, LOW);
+	delay(1);
+	digitalWrite(_dataPin, HIGH); //1
+	delay(1);
+	digitalWrite(_clockPin, HIGH);
+	delay(1);
+	digitalWrite(_clockPin, LOW);
+	delay(1);
+	}
+	else if (_command ==0b00000011)  //comando temperatura
+	{
+	digitalWrite(_dataPin, LOW); //0
+	delay(1);
+	digitalWrite(_clockPin, HIGH);
+	delay(1);
+	digitalWrite(_clockPin, LOW);
+	delay(1);
+	digitalWrite(_dataPin, LOW); //0
+	delay(1);
+	digitalWrite(_clockPin, HIGH);
+	delay(1);
+	digitalWrite(_clockPin, LOW);
+	delay(1);
+	digitalWrite(_dataPin, LOW); //0
+	delay(1);
+	digitalWrite(_clockPin, HIGH);
+	delay(1);
+	digitalWrite(_clockPin, LOW);
+	delay(1);
+	digitalWrite(_dataPin, LOW); //0
+	delay(1);
+	digitalWrite(_clockPin, HIGH);
+	delay(1);
+	digitalWrite(_clockPin, LOW);
+	delay(1);
+	digitalWrite(_dataPin, LOW); //0
+	delay(1);
+	digitalWrite(_clockPin, HIGH);
+	delay(1);
+	digitalWrite(_clockPin, LOW);
+	delay(1);
+	digitalWrite(_dataPin, LOW); //0
+	delay(1);
+	digitalWrite(_clockPin, HIGH);
+	delay(1);
+	digitalWrite(_clockPin, LOW);
+	delay(1);
+	digitalWrite(_dataPin, HIGH); //1
+	delay(1);
+	digitalWrite(_clockPin, HIGH);
+	delay(1);
+	digitalWrite(_clockPin, LOW);
+	delay(1);
+	digitalWrite(_dataPin, HIGH); //1
+	delay(1);
+	digitalWrite(_clockPin, HIGH);
+	delay(1);
+	digitalWrite(_clockPin, LOW);
+	delay(1);
+	}
+	
     // Verify we get the correct ack
     digitalWrite(_clockPin, HIGH);
-    delay(1);
+	delay(1);
     pinMode(_dataPin, INPUT);
     ack = digitalRead(_dataPin);
+	delay(1);
     if (ack != LOW) {
     //Serial.println("Ack Error 0");
     }
     digitalWrite(_clockPin, LOW);
-    delay(1);
+	delay(1);
     ack = digitalRead(_dataPin);
+	delay(1);
     if (ack != HIGH) {
     //Serial.println("Ack Error 1");
     }
@@ -194,7 +299,7 @@ void SHT1x::waitForResultSHT(int _dataPin)
     
     for(i= 0; i < 100; ++i)
     {
-        delay(20);
+        delay(10);
         ack = digitalRead(_dataPin);
         
         if (ack == LOW) {
@@ -212,7 +317,6 @@ void SHT1x::waitForResultSHT(int _dataPin)
 int SHT1x::getData16SHT(int _dataPin, int _clockPin)
 {
     int val;
-    
     // Get the most significant bits
     pinMode(_dataPin, INPUT);
     pinMode(_clockPin, OUTPUT);
@@ -224,6 +328,7 @@ int SHT1x::getData16SHT(int _dataPin, int _clockPin)
     digitalWrite(_dataPin, HIGH);
     delay(1);
     digitalWrite(_dataPin, LOW);
+	delay(1);
     digitalWrite(_clockPin, HIGH);
     delay(1);
     digitalWrite(_clockPin, LOW);
@@ -245,9 +350,10 @@ void SHT1x::skipCrcSHT(int _dataPin, int _clockPin)
     pinMode(_clockPin, OUTPUT);
     
     digitalWrite(_dataPin, HIGH);
-    delay(1);
+	delay(1);
     digitalWrite(_clockPin, HIGH);
-    delay(1);
+	delay(1);
     digitalWrite(_clockPin, LOW);
-    delay(1);
+	delay(1);
 }
+
