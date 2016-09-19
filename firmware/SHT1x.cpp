@@ -115,7 +115,6 @@ float SHT1x::readTemperatureRaw()
     
     // Command to send to the SHT1x to request Temperature
     int _gTempCmd  = 0b00000011;
-    
     sendCommandSHT(_gTempCmd, _dataPin, _clockPin);
     waitForResultSHT(_dataPin);
     _val = getData16SHT(_dataPin, _clockPin);
@@ -134,9 +133,10 @@ int SHT1x::shiftIn(int _dataPin, int _clockPin, int _numBits)
     for (i=0; i<_numBits; ++i)
     {
         digitalWrite(_clockPin, HIGH);
-        delay(10);  // I don't know why I need this, but without it I don't get my 8 lsb of temp
+        delay(20);  // I don't know why I need this, but without it I don't get my 8 lsb of temp
         ret = ret*2 + digitalRead(_dataPin);
         digitalWrite(_clockPin, LOW);
+        delay(20)
     }
     
     return(ret);
@@ -151,25 +151,32 @@ void SHT1x::sendCommandSHT(int _command, int _dataPin, int _clockPin)
     // Transmission Start
     pinMode(_dataPin, OUTPUT);
     pinMode(_clockPin, OUTPUT);
+    delay(1)
     digitalWrite(_dataPin, HIGH);
     digitalWrite(_clockPin, HIGH);
+    delay(1)
     digitalWrite(_dataPin, LOW);
     digitalWrite(_clockPin, LOW);
+    delay(1)
     digitalWrite(_clockPin, HIGH);
+    delay(1)
     digitalWrite(_dataPin, HIGH);
     digitalWrite(_clockPin, LOW);
+    delay(1)
     
     // The command (3 msb are address and must be 000, and last 5 bits are command)
     shiftOut(_dataPin, _clockPin, MSBFIRST, _command);
     
     // Verify we get the correct ack
     digitalWrite(_clockPin, HIGH);
+    delay(1)
     pinMode(_dataPin, INPUT);
     ack = digitalRead(_dataPin);
     if (ack != LOW) {
     //Serial.println("Ack Error 0");
     }
     digitalWrite(_clockPin, LOW);
+    delay(1)
     ack = digitalRead(_dataPin);
     if (ack != HIGH) {
     //Serial.println("Ack Error 1");
@@ -187,7 +194,7 @@ void SHT1x::waitForResultSHT(int _dataPin)
     
     for(i= 0; i < 100; ++i)
     {
-        delay(10);
+        delay(20);
         ack = digitalRead(_dataPin);
         
         if (ack == LOW) {
@@ -215,9 +222,12 @@ int SHT1x::getData16SHT(int _dataPin, int _clockPin)
     // Send the required ack
     pinMode(_dataPin, OUTPUT);
     digitalWrite(_dataPin, HIGH);
+    delay(1)
     digitalWrite(_dataPin, LOW);
     digitalWrite(_clockPin, HIGH);
+    delay(1)
     digitalWrite(_clockPin, LOW);
+    delay(1)
     
     // Get the least significant bits
     pinMode(_dataPin, INPUT);
@@ -235,6 +245,9 @@ void SHT1x::skipCrcSHT(int _dataPin, int _clockPin)
     pinMode(_clockPin, OUTPUT);
     
     digitalWrite(_dataPin, HIGH);
+    delay(1)
     digitalWrite(_clockPin, HIGH);
+    delay(1)
     digitalWrite(_clockPin, LOW);
+    delay(1)
 }
