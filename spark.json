@@ -1,7 +1,7 @@
 {
-  "name": "SHT1x",
-  "author": "Anurag Chugh <lithiumhead@gmail.com>",
+  "name": "sht1x-mod",
+  "author": "prova <xxxxxxxxxxx@gmail.com>",
   "license": "GPL v3 (http://www.gnu.org/licenses/gpl.html)",
-  "version": "1.0.1",
-  "description": "SHT1x Temperature / Humidity Sensor Library for Spark Core"
+  "version": "2.0",
+  "description": "libreria sht1x modificata"
 }
