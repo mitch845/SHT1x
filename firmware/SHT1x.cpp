@@ -150,19 +150,19 @@ void SHT1x::sendCommandSHT(int _command, int _dataPin, int _clockPin)
     pinMode(_dataPin, OUTPUT);
     pinMode(_clockPin, OUTPUT);
     digitalWrite(_dataPin, HIGH);
-	delay(1);
+	delay(10);
     digitalWrite(_clockPin, HIGH);
-	delay(1);
+	delay(10);
     digitalWrite(_dataPin, LOW);
-	delay(1);
+	delay(10);
     digitalWrite(_clockPin, LOW);
-	delay(1);
+	delay(10);
     digitalWrite(_clockPin, HIGH);
-	delay(1);
+	delay(10);
     digitalWrite(_dataPin, HIGH);
-	delay(1);
+	delay(10);
     digitalWrite(_clockPin, LOW);
-	delay(1);
+	delay(10);
     
     if(_command == 0b00000101)  //comando umidità
     // The command (3 msb are address and must be 000, and last 5 bits are command)
@@ -170,104 +170,104 @@ void SHT1x::sendCommandSHT(int _command, int _dataPin, int _clockPin)
 	{
 	//sequenza per lettura umidita: 00000101
     digitalWrite(_dataPin, LOW); //0
-	delay(1);
+	delay(10);
 	digitalWrite(_clockPin, HIGH);
-	delay(1);
+	delay(10);
 	digitalWrite(_clockPin, LOW);
-	delay(1);
+	delay(10);
 	digitalWrite(_dataPin, LOW); //0
-	delay(1);
+	delay(10);
 	digitalWrite(_clockPin, HIGH);
-	delay(1);
+	delay(10);
 	digitalWrite(_clockPin, LOW);
-	delay(1);
+	delay(10);
 	digitalWrite(_dataPin, LOW); //0
-	delay(1);
+	delay(10);
 	digitalWrite(_clockPin, HIGH);
-	delay(1);
+	delay(10);
 	digitalWrite(_clockPin, LOW);
-	delay(1);
+	delay(10);
 	digitalWrite(_dataPin, LOW); //0
-	delay(1);
+	delay(10);
 	digitalWrite(_clockPin, HIGH);
-	delay(1);
+	delay(10);
 	digitalWrite(_clockPin, LOW);
-	delay(1);
+	delay(10);
 	digitalWrite(_dataPin, LOW); //0
-	delay(1);
+	delay(10);
 	digitalWrite(_clockPin, HIGH);
-	delay(1);
+	delay(10);
 	digitalWrite(_clockPin, LOW);
-	delay(1);
+	delay(10);
 	digitalWrite(_dataPin, HIGH); //1
-	delay(1);
+	delay(10);
 	digitalWrite(_clockPin, HIGH);
-	delay(1);
+	delay(10);
 	digitalWrite(_clockPin, LOW);
-	delay(1);
+	delay(10);
 	digitalWrite(_dataPin, LOW); //0
-	delay(1);
+	delay(10);
 	digitalWrite(_clockPin, HIGH);
-	delay(1);
+	delay(10);
 	digitalWrite(_clockPin, LOW);
-	delay(1);
+	delay(10);
 	digitalWrite(_dataPin, HIGH); //1
-	delay(1);
+	delay(10);
 	digitalWrite(_clockPin, HIGH);
-	delay(1);
+	delay(10);
 	digitalWrite(_clockPin, LOW);
-	delay(1);
+	delay(10);
 	}
 	else if (_command ==0b00000011)  //comando temperatura
 	{
 	digitalWrite(_dataPin, LOW); //0
-	delay(1);
+	delay(10);
 	digitalWrite(_clockPin, HIGH);
-	delay(1);
+	delay(10);
 	digitalWrite(_clockPin, LOW);
-	delay(1);
+	delay(10);
 	digitalWrite(_dataPin, LOW); //0
-	delay(1);
+	delay(10);
 	digitalWrite(_clockPin, HIGH);
-	delay(1);
+	delay(10);
 	digitalWrite(_clockPin, LOW);
-	delay(1);
+	delay(10);
 	digitalWrite(_dataPin, LOW); //0
-	delay(1);
+	delay(10);
 	digitalWrite(_clockPin, HIGH);
-	delay(1);
+	delay(10);
 	digitalWrite(_clockPin, LOW);
-	delay(1);
+	delay(10);
 	digitalWrite(_dataPin, LOW); //0
-	delay(1);
+	delay(10);
 	digitalWrite(_clockPin, HIGH);
-	delay(1);
+	delay(10);
 	digitalWrite(_clockPin, LOW);
-	delay(1);
+	delay(10);
 	digitalWrite(_dataPin, LOW); //0
-	delay(1);
+	delay(10);
 	digitalWrite(_clockPin, HIGH);
-	delay(1);
+	delay(10);
 	digitalWrite(_clockPin, LOW);
-	delay(1);
+	delay(10);
 	digitalWrite(_dataPin, LOW); //0
-	delay(1);
+	delay(10);
 	digitalWrite(_clockPin, HIGH);
-	delay(1);
+	delay(10);
 	digitalWrite(_clockPin, LOW);
-	delay(1);
+	delay(10);
 	digitalWrite(_dataPin, HIGH); //1
-	delay(1);
+	delay(10);
 	digitalWrite(_clockPin, HIGH);
-	delay(1);
+	delay(10);
 	digitalWrite(_clockPin, LOW);
-	delay(1);
+	delay(10);
 	digitalWrite(_dataPin, HIGH); //1
-	delay(1);
+	delay(10);
 	digitalWrite(_clockPin, HIGH);
-	delay(1);
+	delay(10);
 	digitalWrite(_clockPin, LOW);
-	delay(1);
+	delay(10);
 	}
 	
     // Verify we get the correct ack
@@ -299,7 +299,7 @@ void SHT1x::waitForResultSHT(int _dataPin)
     
     for(i= 0; i < 100; ++i)
     {
-        delay(10);
+        delay(20);
         ack = digitalRead(_dataPin);
         
         if (ack == LOW) {
@@ -326,13 +326,13 @@ int SHT1x::getData16SHT(int _dataPin, int _clockPin)
     // Send the required ack
     pinMode(_dataPin, OUTPUT);
     digitalWrite(_dataPin, HIGH);
-    delay(1);
+    delay(10);
     digitalWrite(_dataPin, LOW);
-	delay(1);
+	delay(10);
     digitalWrite(_clockPin, HIGH);
-    delay(1);
+    delay(10);
     digitalWrite(_clockPin, LOW);
-    delay(1);
+    delay(10);
     
     // Get the least significant bits
     pinMode(_dataPin, INPUT);
@@ -350,10 +350,10 @@ void SHT1x::skipCrcSHT(int _dataPin, int _clockPin)
     pinMode(_clockPin, OUTPUT);
     
     digitalWrite(_dataPin, HIGH);
-	delay(1);
+	delay(10);
     digitalWrite(_clockPin, HIGH);
-	delay(1);
+	delay(10);
     digitalWrite(_clockPin, LOW);
-	delay(1);
+	delay(10);
 }
 
